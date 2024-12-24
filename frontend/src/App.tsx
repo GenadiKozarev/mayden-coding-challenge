@@ -1,11 +1,12 @@
-import './App.css'
+import './App.css';
+import { ItemList } from './components/ItemList';
 
 function App() {
-  return (
-    <>
-      <h1>hello Mayden!</h1>
-    </>
-  )
+    return (
+        <>
+            <ItemList />
+        </>
+    );
 }
 
-export default App
+export default App;
