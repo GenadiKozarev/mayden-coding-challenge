@@ -1,7 +1,8 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-// import { AppDataSource } from './data-source';
+import { AppDataSource } from './data-source';
+import { ItemController } from './controllers/ItemController';
 
 // Load environment variables
 dotenv.config();
@@ -14,26 +15,28 @@ app.get('/', (_req, res) => {
     res.send('Server is running');
 });
 
-// Temporarily skip DB init for a quick check
-// // Initialize the database, then start the server
-// AppDataSource.initialize()
-//     .then(() => {
-//         console.log('Database connection established');
-//         const PORT = process.env.PORT || 3001;
-//         app.listen(PORT, () => {
-//             console.log(`Server is listening on port ${PORT}`);
-//         });
-//     })
-//     .catch(err => {
-//         console.error('Error during DataSource initialization:', err);
-//     });
+// Story 1: View a list of items
+app.get('/items', ItemController.getAllItems);
 
-// Only start the server if this file is run directly (e.g. `npm start`)
+// Error-handling middleware
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+    console.error(`Error: ${err.message}`);
+    res.status(err.status || 500).json({ error: err.message || 'Internal Server Error' });
+});
+
+// Only start the server if this file is run directly
 if (require.main === module) {
-    const PORT = process.env.PORT || 3001;
-    app.listen(PORT, () => {
-        console.log(`Server listening on port ${PORT}`);
-    });
+    AppDataSource.initialize()
+        .then(() => {
+            console.log('Database connected');
+            const PORT = process.env.PORT || 3001;
+            app.listen(PORT, () => {
+                console.log(`Server listening on port ${PORT}`);
+            });
+        })
+        .catch(err => {
+            console.error('Error during DataSource initialization:', err);
+        });
 }
 
 export { app };
