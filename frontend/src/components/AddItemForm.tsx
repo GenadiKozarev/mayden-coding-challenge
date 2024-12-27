@@ -34,18 +34,15 @@ export const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ marginBottom: '1rem' }}>
+        <form onSubmit={handleSubmit} style={{ marginBottom: '2rem' }}>
             <input
                 type="text"
                 value={name}
                 onChange={e => setName(e.target.value)}
                 placeholder="Enter item name"
-                style={{ padding: '0.5rem', width: '200px' }}
+                style={{ padding: '1rem', width: '25rem' }}
             />
-            <button
-                type="submit"
-                style={{ padding: '0.5rem', marginLeft: '0.5rem' }}
-            >
+            <button type="submit" className="btn-add">
                 Add Item
             </button>
             {error && <p style={{ color: 'red' }}>{error}</p>}

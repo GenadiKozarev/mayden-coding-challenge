@@ -3,19 +3,36 @@
 How to run the project:
 
 ```
-git clone git@github.com:GenadiKozarev/mayden-coding-challenge.git // clones this repository
+// clone repository
+git clone git@github.com:GenadiKozarev/mayden-coding-challenge.git 
 
-// Install the dependencies and start the server:
+// go to the backend directory
 cd mayden-coding-challenge/backend
-cp .env.example .env // Update the .env file with your own values after creating a MySQL database named 'mayden_challenge_shopping_db'
-npm install
-npm run test // (optional)
-npm run dev // starts the server on port 3001 or the port specified in your .env file
 
-// Install the dependencies and start the frontend app:
-cd ../frontend
+// create a MySQL database named 'mayden_challenge_shopping_db'
+
+// copy the .env.example file to .env and update it with your own values
+cp .env.example .env
+
+// install dependencies
 npm install
-npm start // starts the frontend app. Then open your browser and go to http://localhost:5173/
+
+// check if the tests are passing (optional)
+npm run test
+
+// start the server (on port 3001 or the port specified in your .env file)
+npm run dev 
+
+// go to the frontend directory
+cd ../frontend
+
+// install dependencies
+npm install
+
+// start the frontend app
+npm start
+
+// Open your browser and go to http://localhost:5173/
 ```
 
 Environment Variables

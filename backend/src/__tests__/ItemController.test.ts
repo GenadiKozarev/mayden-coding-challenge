@@ -48,3 +48,37 @@ describe('POST /items', () => {
         expect(res.body).toHaveProperty('error', 'Invalid item name');
     });
 });
+
+describe('DELETE /items/:id', () => {
+    let itemId: number;
+    beforeAll(async () => {
+        // Add an item to delete
+        const newItem = { name: 'Bananas' };
+        const res = await request(app).post('/items').send(newItem);
+        itemId = res.body.id;
+    });
+
+    it('should remove an existing item and return 204 status', async () => {
+        const res = await request(app).delete(`/items/${itemId}`);
+        expect(res.status).toBe(204);
+        // Verify the item is removed
+        const getRes = await request(app).get('/items');
+        expect(
+            getRes.body.find((item: Item) => item.id === itemId)
+        ).toBeUndefined();
+    });
+
+    it('should return 404 when trying to remove a non-existent item', async () => {
+        const nonExistentId = 9999;
+        const res = await request(app).delete(`/items/${nonExistentId}`);
+        expect(res.status).toBe(404);
+        expect(res.body).toHaveProperty('error', 'Item not found');
+    });
+
+    it('should return 400 for invalid item IDs', async () => {
+        const invalidId = 'abc';
+        const res = await request(app).delete(`/items/${invalidId}`);
+        expect(res.status).toBe(400);
+        expect(res.body).toHaveProperty('error', 'Invalid item ID');
+    });
+});
