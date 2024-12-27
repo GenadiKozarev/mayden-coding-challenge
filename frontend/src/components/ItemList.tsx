@@ -27,6 +27,22 @@ export const ItemList: React.FC = () => {
         }
     };
 
+    const handleDelete = async (id: number) => {
+        try {
+            await axios.delete(`http://localhost:3001/items/${id}`);
+            // Remove the deleted item from the state
+            setItems(items.filter(item => item.id !== id));
+        } catch (err: any) {
+            if (err.response && err.response.status === 404) {
+                alert('Item not found');
+            } else if (err.response && err.response.status === 400) {
+                alert('Invalid item ID');
+            } else {
+                alert('Failed to delete item');
+            }
+        }
+    };
+
     useEffect(() => {
         fetchItems();
     }, []);
@@ -42,10 +58,27 @@ export const ItemList: React.FC = () => {
             ) : items.length === 0 ? (
                 <p>No items found.</p>
             ) : (
-                <ul>
+                <ul style={{ paddingLeft: '1rem' }}>
                     {items.map(item => (
-                        <li key={item.id}>
-                            {item.name} {item.purchased ? '(purchased)' : ''}
+                        <li
+                            key={item.id}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                marginBottom: '0.5rem',
+                                fontSize: '1.75rem',
+                            }}
+                        >
+                            <span>
+                                {item.name}{' '}
+                                {item.purchased ? '(purchased)' : ''}
+                            </span>
+                            <button
+                                onClick={() => handleDelete(item.id)}
+                                className="btn-delete"
+                            >
+                                Delete
+                            </button>
                         </li>
                     ))}
                 </ul>

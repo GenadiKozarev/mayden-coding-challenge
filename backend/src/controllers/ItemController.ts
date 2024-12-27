@@ -40,4 +40,25 @@ export class ItemController {
             next(new AppError('Failed to add item', 500));
         }
     }
+
+    public static async removeItem(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
+        try {
+            const { id } = req.params;
+            const itemId = parseInt(id, 10);
+            if (isNaN(itemId)) {
+                res.status(400).json({ error: 'Invalid item ID' });
+            }
+            await itemService.removeItem(itemId);
+            res.status(204).send(); // No content
+        } catch (error) {
+            if (error instanceof Error && error.message === 'Item not found') {
+                next(new AppError('Item not found', 404));
+            }
+            next(new AppError('Failed to remove item', 500));
+        }
+    }
 }

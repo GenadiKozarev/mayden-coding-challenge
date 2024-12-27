@@ -14,11 +14,21 @@ export class ItemService {
     }
 
     public async addItem(name: string): Promise<Item> {
-        const existingItem = await this.itemRepository.findOne({ where: { name } });
+        const existingItem = await this.itemRepository.findOne({
+            where: { name },
+        });
         if (existingItem) {
             throw new Error('Item already exists');
         }
         const newItem = this.itemRepository.create({ name });
         return this.itemRepository.save(newItem);
+    }
+
+    public async removeItem(id: number): Promise<void> {
+        const item = await this.itemRepository.findOne({ where: { id } });
+        if (!item) {
+            throw new Error('Item not found');
+        }
+        await this.itemRepository.remove(item);
     }
 }

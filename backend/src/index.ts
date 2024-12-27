@@ -19,6 +19,8 @@ app.get('/', (_req, res) => {
 app.get('/items', ItemController.getAllItems);
 // Story 2: Add an item to the shopping list
 app.post('/items', ItemController.addItem);
+// Story 3: Remove stuff from the shopping list
+app.delete('/items/:id', ItemController.removeItem);
 
 // Error-handling middleware
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
