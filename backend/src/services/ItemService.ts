@@ -12,4 +12,13 @@ export class ItemService {
     public async getAllItems(): Promise<Item[]> {
         return this.itemRepository.find(); // SELECT * FROM items;
     }
+
+    public async addItem(name: string): Promise<Item> {
+        const existingItem = await this.itemRepository.findOne({ where: { name } });
+        if (existingItem) {
+            throw new Error('Item already exists');
+        }
+        const newItem = this.itemRepository.create({ name });
+        return this.itemRepository.save(newItem);
+    }
 }
