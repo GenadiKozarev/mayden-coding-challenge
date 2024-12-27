@@ -17,11 +17,15 @@ app.get('/', (_req, res) => {
 
 // Story 1: View a list of items
 app.get('/items', ItemController.getAllItems);
+// Story 2: Add an item to the shopping list
+app.post('/items', ItemController.addItem);
 
 // Error-handling middleware
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     console.error(`Error: ${err.message}`);
-    res.status(err.status || 500).json({ error: err.message || 'Internal Server Error' });
+    res.status(err.status || 500).json({
+        error: err.message || 'Internal Server Error',
+    });
 });
 
 // Only start the server if this file is run directly

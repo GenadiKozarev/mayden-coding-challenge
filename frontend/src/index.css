@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #a24422;
+  background-color: #0b7384;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -35,6 +35,12 @@ h1 {
   line-height: 1.1;
 }
 
+h2 {
+  font-size: 3em;
+  line-height: 1;
+  text-align: center;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -42,7 +48,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #53A00A;
   cursor: pointer;
   transition: border-color 0.25s;
 }
