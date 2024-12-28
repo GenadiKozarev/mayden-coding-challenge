@@ -11,16 +11,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Health check
 app.get('/', (_req, res) => {
     res.send('Server is running');
 });
-
 // Story 1: View a list of items
 app.get('/items', ItemController.getAllItems);
 // Story 2: Add an item to the shopping list
 app.post('/items', ItemController.addItem);
 // Story 3: Remove stuff from the shopping list
 app.delete('/items/:id', ItemController.removeItem);
+// Story 4: Mark an item as purchased
+app.patch('/items/:id/purchased', ItemController.updateItemPurchasedStatus);
 
 // Error-handling middleware
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

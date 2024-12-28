@@ -31,4 +31,16 @@ export class ItemService {
         }
         await this.itemRepository.remove(item);
     }
+
+    public async markItemAsPurchased(
+        id: number,
+        purchased: boolean
+    ): Promise<Item> {
+        const item = await this.itemRepository.findOne({ where: { id } });
+        if (!item) {
+            throw new Error('Item not found');
+        }
+        item.purchased = purchased;
+        return this.itemRepository.save(item);
+    }
 }
