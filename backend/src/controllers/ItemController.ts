@@ -61,4 +61,32 @@ export class ItemController {
             next(new AppError('Failed to remove item', 500));
         }
     }
+
+    public static async updateItemPurchasedStatus(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
+        try {
+            const { id } = req.params;
+            const { purchased } = req.body;
+            const itemId = parseInt(id, 10);
+            if (isNaN(itemId)) {
+                next(new AppError('Invalid item ID', 400));
+            }
+            if (typeof purchased !== 'boolean') {
+                next(new AppError('Invalid purchased status', 400));
+            }
+            const updatedItem = await itemService.markItemAsPurchased(
+                itemId,
+                purchased
+            );
+            res.status(200).json(updatedItem);
+        } catch (error) {
+            if (error instanceof Error && error.message === 'Item not found') {
+                next(new AppError('Item not found', 404));
+            }
+            next(new AppError('Failed to update item status', 500));
+        }
+    }
 }

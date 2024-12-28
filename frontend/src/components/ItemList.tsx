@@ -43,6 +43,34 @@ export const ItemList: React.FC = () => {
         }
     };
 
+    const handleTogglePurchased = async (
+        id: number,
+        currentStatus: boolean
+    ) => {
+        try {
+            const res = await axios.patch(
+                `http://localhost:3001/items/${id}/purchased`,
+                { purchased: !currentStatus }
+            );
+            // Update the item in the state
+            setItems(
+                items.map(item =>
+                    item.id === id
+                        ? { ...item, purchased: res.data.purchased }
+                        : item
+                )
+            );
+        } catch (err: any) {
+            if (err.response && err.response.status === 404) {
+                alert('Item not found');
+            } else if (err.response && err.response.status === 400) {
+                alert('Invalid request');
+            } else {
+                alert('Failed to update item');
+            }
+        }
+    };
+
     useEffect(() => {
         fetchItems();
     }, []);
@@ -58,7 +86,7 @@ export const ItemList: React.FC = () => {
             ) : items.length === 0 ? (
                 <p>No items found.</p>
             ) : (
-                <ul style={{ paddingLeft: '1rem' }}>
+                <ul style={{ listStyleType: 'none', padding: '0' }}>
                     {items.map(item => (
                         <li
                             key={item.id}
@@ -69,7 +97,25 @@ export const ItemList: React.FC = () => {
                                 fontSize: '1.75rem',
                             }}
                         >
-                            <span>
+                            <input
+                                type="checkbox"
+                                checked={item.purchased}
+                                onChange={() =>
+                                    handleTogglePurchased(
+                                        item.id,
+                                        item.purchased
+                                    )
+                                }
+                                style={{ marginRight: '0.5rem' }}
+                            />
+                            <span
+                                style={{
+                                    textDecoration: item.purchased
+                                        ? 'line-through'
+                                        : 'none',
+                                    color: item.purchased ? '#0E415A' : '#fff',
+                                }}
+                            >
                                 {item.name}{' '}
                                 {item.purchased ? '(purchased)' : ''}
                             </span>

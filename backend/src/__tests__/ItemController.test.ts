@@ -82,3 +82,57 @@ describe('DELETE /items/:id', () => {
         expect(res.body).toHaveProperty('error', 'Invalid item ID');
     });
 });
+
+describe('PATCH /items/:id/purchased', () => {
+    let itemId: number;
+    beforeAll(async () => {
+        // Add an item to update
+        const newItem = { name: 'Oranges' };
+        const res = await request(app).post('/items').send(newItem);
+        itemId = res.body.id;
+    });
+
+    it('should mark an existing item as purchased and return the updated item', async () => {
+        const res = await request(app)
+            .patch(`/items/${itemId}/purchased`)
+            .send({ purchased: true });
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty('id', itemId);
+        expect(res.body).toHaveProperty('purchased', true);
+    });
+
+    it('should mark an existing item as not purchased and return the updated item', async () => {
+        const res = await request(app)
+            .patch(`/items/${itemId}/purchased`)
+            .send({ purchased: false });
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty('id', itemId);
+        expect(res.body).toHaveProperty('purchased', false);
+    });
+
+    it('should return 404 when trying to update a non-existent item', async () => {
+        const nonExistentId = 9999;
+        const res = await request(app)
+            .patch(`/items/${nonExistentId}/purchased`)
+            .send({ purchased: true });
+        expect(res.status).toBe(404);
+        expect(res.body).toHaveProperty('error', 'Item not found');
+    });
+
+    it('should return 400 for invalid item IDs', async () => {
+        const invalidId = 'abc';
+        const res = await request(app)
+            .patch(`/items/${invalidId}/purchased`)
+            .send({ purchased: true });
+        expect(res.status).toBe(400);
+        expect(res.body).toHaveProperty('error', 'Invalid item ID');
+    });
+
+    it('should return 400 for invalid purchased status', async () => {
+        const res = await request(app)
+            .patch(`/items/${itemId}/purchased`)
+            .send({ purchased: 'yes' });
+        expect(res.status).toBe(400);
+        expect(res.body).toHaveProperty('error', 'Invalid purchased status');
+    });
+});
