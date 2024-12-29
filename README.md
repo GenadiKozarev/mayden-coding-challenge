@@ -76,17 +76,17 @@ Follow these steps to set up and run the project locally:
 
   - Ensure you have MySQL installed and running. Create a database named `mayden_challenge_shopping_db`
 
-   ```bash
-   CREATE DATABASE mayden_challenge_shopping_db;
-   ```
+     ```
+     CREATE DATABASE mayden_challenge_shopping_db;
+     ```
 
 4. **Configure environment variables**
 
   - Copy the `.env.example` file to `.env` and update it with your own database credentials and configurations.
 
-   ```bash
-   cp .env.example .env
-   ```
+     ```
+     cp .env.example .env
+     ```
 
 5. **Install backend dependencies**
 
@@ -98,39 +98,41 @@ Follow these steps to set up and run the project locally:
 
   - Ensure all backend functionalities are working as expected.
 
-  ```bash
-  npm run test 
-  ```
+     ```
+     npm run test 
+     ```
 
 7. **Start the backend server**
 
   - The server will run on port `3001` or the port specified in your `.env` file.
 
-  ```bash
-  npm run dev 
-  ```
+     ```
+     npm run dev 
+     ```
 
 8. **Frontend Setup**
 
   - Open a new terminal window/tab and navigate to the frontend directory.
 
-  ```bash
-  cd ../frontend
-  ```
+     ```
+     cd ../frontend
+     ```
 
 9. **Install frontend dependencies**
 
-   ```bash
-   npm install
-   ```
+     ```
+     npm install
+     ```
 
 10. **Start the frontend application**
 
   - The frontend will run on port `5173` by default.
 
-  ```bash
-  npm run dev 
-  ```
+     ```
+     npm run dev 
+     ```
+
+11. **Open your browser and go to http://localhost:5173**
 
 ## Environment Variables
 
