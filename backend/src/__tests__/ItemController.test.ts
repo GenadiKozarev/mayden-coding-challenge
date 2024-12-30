@@ -3,14 +3,29 @@ import { app } from '../index';
 import { AppDataSource } from '../data-source';
 import { Item } from '../models/ItemEntity';
 
+// Array to track IDs of items created during tests
+const testCreatedItemIds: number[] = [];
+
 beforeAll(async () => {
     // Initialize DB for testing
     await AppDataSource.initialize();
-    // Clear the items table before tests
-    await AppDataSource.getRepository(Item).clear();
 });
 
 afterAll(async () => {
+    // Delete items created during tests
+    for (const id of testCreatedItemIds) {
+        try {
+            await request(app).delete(`/items/${id}`);
+        } catch (error: any) {
+            // If the item was already deleted during the test, ignore the error
+            if (error.response && error.response.status !== 404) {
+                console.error(
+                    `Failed to delete test item with ID ${id}:`,
+                    error
+                );
+            }
+        }
+    }
     // Close DB connection after tests
     await AppDataSource.destroy();
 });
@@ -20,7 +35,6 @@ describe('GET /items', () => {
         const res = await request(app).get('/items');
         expect(res.status).toBe(200);
         expect(Array.isArray(res.body)).toBe(true);
-        expect(res.body.length).toBe(0);
     });
 });
 
@@ -32,6 +46,7 @@ describe('POST /items', () => {
         expect(res.body).toHaveProperty('id');
         expect(res.body.name).toBe(newItem.name);
         expect(res.body.purchased).toBe(false);
+        testCreatedItemIds.push(res.body.id);
     });
 
     it('should not allow adding duplicate items and return 409 status', async () => {
@@ -51,11 +66,14 @@ describe('POST /items', () => {
 
 describe('DELETE /items/:id', () => {
     let itemId: number;
+
     beforeAll(async () => {
         // Add an item to delete
         const newItem = { name: 'Bananas' };
         const res = await request(app).post('/items').send(newItem);
+        expect(res.status).toBe(201);
         itemId = res.body.id;
+        testCreatedItemIds.push(itemId);
     });
 
     it('should remove an existing item and return 204 status', async () => {
@@ -85,11 +103,14 @@ describe('DELETE /items/:id', () => {
 
 describe('PATCH /items/:id/purchased', () => {
     let itemId: number;
+
     beforeAll(async () => {
         // Add an item to update
         const newItem = { name: 'Oranges' };
         const res = await request(app).post('/items').send(newItem);
+        expect(res.status).toBe(201);
         itemId = res.body.id;
+        testCreatedItemIds.push(itemId);
     });
 
     it('should mark an existing item as purchased and return the updated item', async () => {

@@ -27,6 +27,7 @@ export class ItemController {
             const { name } = req.body;
             if (!name || typeof name !== 'string') {
                 res.status(400).json({ error: 'Invalid item name' });
+                return;
             }
             const newItem = await itemService.addItem(name);
             res.status(201).json(newItem);
@@ -51,12 +52,14 @@ export class ItemController {
             const itemId = parseInt(id, 10);
             if (isNaN(itemId)) {
                 res.status(400).json({ error: 'Invalid item ID' });
+                return;
             }
             await itemService.removeItem(itemId);
             res.status(204).send(); // No content
         } catch (error) {
             if (error instanceof Error && error.message === 'Item not found') {
                 next(new AppError('Item not found', 404));
+                return;
             }
             next(new AppError('Failed to remove item', 500));
         }
@@ -73,9 +76,11 @@ export class ItemController {
             const itemId = parseInt(id, 10);
             if (isNaN(itemId)) {
                 next(new AppError('Invalid item ID', 400));
+                return;
             }
             if (typeof purchased !== 'boolean') {
                 next(new AppError('Invalid purchased status', 400));
+                return;
             }
             const updatedItem = await itemService.markItemAsPurchased(
                 itemId,
@@ -85,6 +90,7 @@ export class ItemController {
         } catch (error) {
             if (error instanceof Error && error.message === 'Item not found') {
                 next(new AppError('Item not found', 404));
+                return;
             }
             next(new AppError('Failed to update item status', 500));
         }
