@@ -9,6 +9,7 @@ A shopping list application that allows users to add, remove, and mark items as 
 - [How to run the project](#how-to-run-the-project)
 - [Environment Variables](#environment-variables)
 - [Architecture](#architecture)
+- [Demo](#demo)
 
 ## Stories completed
 
@@ -189,3 +190,7 @@ Components
 - Service Layer: Contains business logic, such as validating data and orchestrating database operations.
 - Model (TypeORM): Defines data entities (e.g., Item with fields like name and purchased). Responsible for persisting data to the MySQL database.
 - MySQL DB: Serves as the persistent data storage for the application.
+
+## Demo
+
+https://github.com/user-attachments/assets/08a5e868-4a01-4f9f-8577-c3f2e7d71184
