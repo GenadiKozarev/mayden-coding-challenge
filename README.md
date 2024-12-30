@@ -194,3 +194,5 @@ Components
 ## Demo
 
 https://github.com/user-attachments/assets/08a5e868-4a01-4f9f-8577-c3f2e7d71184
+
+<img width="1493" alt="preview" src="https://github.com/user-attachments/assets/3b190f39-3bc3-4e98-b04b-42e0cf7d17cb" />
