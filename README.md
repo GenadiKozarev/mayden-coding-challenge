@@ -1,4 +1,4 @@
-# Mayden Coding Challenge
+# Shopping List Coding Challenge
 
 A shopping list application that allows users to add, remove, and mark items as purchased. The application ensures data persistence using a MySQL database, enabling users to retain their shopping list across sessions.
 
@@ -66,19 +66,19 @@ Follow these steps to set up and run the project locally:
 1. **Clone the repository**
 
    ```bash
-   git clone git@github.com:GenadiKozarev/mayden-coding-challenge.git 
+   git clone git@github.com:GenadiKozarev/shopping-list-coding-challenge.git 
 
 2. **Backend setup**
 
    ```bash
-   cd mayden-coding-challenge/backend
+   cd shopping-list-coding-challenge/backend
 
 3. **Create MySQL database**
 
-  - Ensure you have MySQL installed and running. Create a database named `mayden_challenge_shopping_db`
+  - Ensure you have MySQL installed and running. Create a database named `shopping_list_challenge_db`
 
      ```
-     CREATE DATABASE mayden_challenge_shopping_db;
+     CREATE DATABASE shopping_list_challenge_db;
      ```
 
 4. **Configure environment variables**
@@ -142,14 +142,14 @@ The project requires certain environment variables to function correctly. Create
 DB_HOST=your_database_host
 DB_USER=your_database_username
 DB_PASS=your_database_password
-DB_NAME=mayden_challenge_shopping_db
+DB_NAME=shopping_list_challenge_db
 PORT=3001
 ```
 
 - DB_HOST: Hostname of your MySQL database (e.g., 127.0.0.1).
 - DB_USER: Username for your MySQL database.
 - DB_PASS: Password for your MySQL database. 
-- (do not update) DB_NAME=mayden_challenge_shopping_db
+- (do not update) DB_NAME=shopping_list_challenge_db
 - (do not update) PORT=3001
 
 ## Architecture
